@@ -1,31 +1,49 @@
-# Internal Self-Signed TLS/SSL Certificates
+# Internal Self-Signed Certificate
 
-This repository contains **self-signed TLS/SSL certificates for internal use only**.
+This repository contains a self-signed TLS/SSL certificate for internal or local use.
 
-These certificates are intended for development, testing, and internal services.
-**Do not use these certificates in public or production environments.**
+## macOS Installation
 
----
-
-## ⚠️ Security Notice
-
-- This repository contains **trust material**.
-- Only authorized team members should have access.
-- Self-signed certificates bypass public CA validation and **should never be used externally**.
-- Treat certificates and private keys as sensitive assets.
-
----
-
-## Installing the Certificate
-
-### macOS
-
-To trust the self-signed certificate on macOS, run the following command:
-
-> ⚠️ Requires administrator privileges.  
-> This installs the certificate into the **System keychain**, making it trusted system-wide.
+To trust the certificate on macOS, run the following command:
 
 ```bash
 sudo security add-trusted-cert -d -r trustRoot \
   -k /Library/Keychains/System.keychain \
-  selfsigned_gotchax.crt
+  gotchax.crt
+```
+
+## Linux
+
+### Ubuntu / Debian
+```bash
+sudo cp gotchax.crt /usr/local/share/ca-certificates/
+sudo update-ca-certificates
+```
+
+### RHEL / CentOS / Rocky / Alma
+
+```bash
+sudo cp gotchax.crt /etc/pki/ca-trust/source/anchors/
+sudo update-ca-trust
+```
+
+## Windows
+
+Open **Command Prompt as Administrator**:
+
+```bash
+certutil -addstore -f "Root" selfsigned_gotchax.crt
+```
+
+## Mobile Devices
+### Android
+
+- Copy selfsigned_gotchax.crt to your device.
+- Go to Settings → Security → Install from storage.
+- Select the certificate to install.
+
+### iOS
+
+-  Email the certificate to yourself or use AirDrop.
+-  Open the certificate file.
+-  Tap Install and follow prompts in Settings → General → VPN & Device Management.
